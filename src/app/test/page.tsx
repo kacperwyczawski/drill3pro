@@ -7,6 +7,7 @@ import { ArrowRight, CheckCircle2, Frown, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { MarkdownRenderer } from "@/components/markdown-renderer";
 import { quizStore, selectSummary } from "@/lib/quiz-store";
 import { cn } from "@/lib/utils";
 
@@ -73,7 +74,9 @@ export default function Test() {
           <CardTitle className=" text-slate-500 dark:text-slate-400">
             Question {currentIndex + 1} of {activeQuestions.length}
           </CardTitle>
-          <CardTitle className="text-xl">{question.body}</CardTitle>
+          <CardTitle className="text-xl">
+            <MarkdownRenderer>{question.body}</MarkdownRenderer>
+          </CardTitle>
         </CardHeader>
         <CardContent className="flex flex-col gap-3">
           {question.answers.map(option => {
@@ -100,7 +103,9 @@ export default function Test() {
                 )}
               >
                 <Checkbox checked={selected} className="mt-1" />
-                <span className="font-medium text-slate-800 dark:text-slate-100 select-none">{option.body}</span>
+                <span className="font-medium text-slate-800 dark:text-slate-100 select-none">
+                  <MarkdownRenderer>{option.body}</MarkdownRenderer>
+                </span>
               </div>
             );
           })}

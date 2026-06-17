@@ -5,6 +5,7 @@ import { CheckCircle2, Frown, RefreshCw } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { MarkdownRenderer } from "@/components/markdown-renderer";
 import { quizStore, selectSummary } from "@/lib/quiz-store";
 import { cn } from "@/lib/utils";
 
@@ -75,7 +76,9 @@ export default function Summary() {
                 className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900"
               >
                 <div className="flex items-start justify-between gap-3">
-                  <p className="font-medium text-slate-800 dark:text-slate-100">{q.body}</p>
+                  <div className="font-medium text-slate-800 dark:text-slate-100">
+                    <MarkdownRenderer>{q.body}</MarkdownRenderer>
+                  </div>
                   <OutcomePill result={result} />
                 </div>
                 <div className="mt-3 space-y-2">
@@ -91,7 +94,9 @@ export default function Summary() {
                     return (
                       <div key={option.id} className={cn("flex items-start gap-2 rounded-md border px-3 py-2", tone)}>
                         <div className="mt-0.5 size-2 rounded-full bg-current flex-none" />
-                        <p className="text-sm font-medium">{option.body}</p>
+                        <div className="text-sm font-medium">
+                          <MarkdownRenderer>{option.body}</MarkdownRenderer>
+                        </div>
                         {isCorrect && <CheckCircle2 className="size-4 text-emerald-500 flex-none" />}
                         {!isCorrect && isSelected && <Frown className="size-4 text-rose-500 flex-none" />}
                       </div>
