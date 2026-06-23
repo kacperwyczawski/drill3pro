@@ -31,6 +31,7 @@ export default function Test() {
   const answeredCount = results.length;
   const totalQuestions = activeQuestions.length || 1;
   const completionPercent = Math.round((answeredCount / totalQuestions) * 100);
+  const scorePercent = Math.round((summary.correct / (answeredCount || 1)) * 100);
 
   useEffect(() => {
     if (status === "done") {
@@ -71,9 +72,6 @@ export default function Test() {
     <main className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_320px] items-start">
       <Card>
         <CardHeader className="space-y-2">
-          <CardTitle className=" text-slate-500 dark:text-slate-400">
-            Question {currentIndex + 1} of {activeQuestions.length}
-          </CardTitle>
           <CardTitle className="text-xl">
             <MarkdownRenderer>{question.body}</MarkdownRenderer>
           </CardTitle>
@@ -126,8 +124,29 @@ export default function Test() {
         </CardContent>
       </Card>
       <Card className="border-slate-200 shadow-sm dark:border-slate-800">
-        <CardHeader className="font-semibold text-slate-800 dark:text-slate-100">
-          Score: {Math.round((summary.correct / (answeredCount || 1)) * 100)}% ({summary.correct}/{answeredCount || 1})
+        <CardHeader className="flex flex-col gap-3 pb-4">
+          <div className="flex w-full flex-row items-center gap-3">
+            <div className="w-16 shrink-0 whitespace-nowrap text-sm font-semibold text-slate-800 dark:text-slate-100">
+              Progress
+            </div>
+            <div className="flex-1 h-2 rounded-full bg-slate-200 dark:bg-slate-800">
+              <div className={cn("h-full rounded-full bg-blue-500", completionPercent > 0 && "min-w-2")} style={{ width: `${completionPercent}%` }} />
+            </div>
+            <div className="w-12 shrink-0 text-right text-sm font-medium text-slate-500 dark:text-slate-400">
+              {answeredCount}/{totalQuestions}
+            </div>
+          </div>
+          <div className="flex w-full flex-row items-center gap-3">
+            <div className="w-16 shrink-0 whitespace-nowrap text-sm font-semibold text-slate-800 dark:text-slate-100">
+              Score
+            </div>
+            <div className="flex-1 h-2 rounded-full bg-slate-200 dark:bg-slate-800">
+              <div className={cn("h-full rounded-full bg-emerald-500", scorePercent > 0 && "min-w-2")} style={{ width: `${scorePercent}%` }} />
+            </div>
+            <div className="w-12 shrink-0 text-right text-sm font-medium text-slate-500 dark:text-slate-400">
+              {scorePercent}%
+            </div>
+          </div>
         </CardHeader>
         <CardContent className="-mt-4 grid grid-cols-3 gap-2 text-center font-medium text-slate-700 dark:text-slate-200">
           <div className="box border-emerald-100 dark:border-emerald-500/30">
@@ -143,11 +162,7 @@ export default function Test() {
             <div>Wrong</div>
           </div>
         </CardContent>
-        <CardFooter>
-          <div className="w-full h-2 rounded-full bg-slate-200 dark:bg-slate-800">
-            <div className="h-full rounded-full bg-indigo-500" style={{ width: `${completionPercent}%` }} />
-          </div>
-        </CardFooter>
+
       </Card>
     </main>
   );
